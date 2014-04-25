@@ -524,8 +524,7 @@
     }
     UIGraphicsBeginImageContextWithOptions(size, YES, scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    int i;
-    NSArray *hiddenViews = [self prepareUnderlyingViewForSnapshotIndex:&i];
+    NSArray *hiddenViews = [self prepareUnderlyingViewForSnapshot];
     for (CALayer *layer in [underlyingLayer.presentationLayer sublayers]) {
         if (layer == self.blurPresentationLayer) {
             break;
@@ -541,7 +540,7 @@
     return snapshot;
 }
 
-- (NSArray *)prepareUnderlyingViewForSnapshotIndex:(int *)outIndex
+- (NSArray *)prepareUnderlyingViewForSnapshot
 {
     __strong CALayer *blurlayer = [self blurLayer];
     __strong CALayer *underlyingLayer = [self underlyingLayer];
@@ -563,7 +562,6 @@
             }
         }
     }
-    *outIndex = index;
     return layers;
 }
 
