@@ -525,13 +525,14 @@
     }
     UIGraphicsBeginImageContextWithOptions(size, YES, scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextTranslateCTM(context, -bounds.origin.x, -bounds.origin.y);
     NSArray *hiddenViews = [self prepareUnderlyingViewForSnapshot];
     for (CALayer *layer in [underlyingLayer.presentationLayer sublayers]) {
         if (layer == self.blurPresentationLayer) {
             break;
         }
         CGContextSaveGState(context);
-        CGContextTranslateCTM(context, -layer.bounds.origin.x - bounds.origin.x, -layer.bounds.origin.y - bounds.origin.y);
+        CGContextTranslateCTM(context, layer.frame.origin.x - layer.bounds.origin.x, layer.frame.origin.y - layer.bounds.origin.y);
         [layer renderInContext:context];
         CGContextRestoreGState(context);
     }
